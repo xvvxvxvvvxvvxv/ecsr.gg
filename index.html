@@ -8,8 +8,11 @@
   <meta property="og:title" content="Economy Simulator: Reborn">
   <meta property="og:description" content="Relive the old Economy Simulator experience without being worried about security.">
   <meta property="og:image" content="https://images.dahood.vip/image.png">
-  <meta property="og:type" content="website">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://ecsr.cc">
+  <meta property="og:type" content="website">
   <style>
     :root {
       --bg:#000;
@@ -30,12 +33,23 @@
       box-sizing:border-box;
     }
     h1 { font-size: clamp(24px, 6vw, 56px); margin:0; letter-spacing:1px; }
-    p.description { font-size:16px; max-width:600px; line-height:1.5; margin-top:10px; opacity:0.9; }
-    img.main-image { max-width:600px; width:100%; border-radius:8px; margin-top:16px; box-shadow:0 6px 20px rgba(0,0,0,0.6);}
+    img.main-image { max-width:100%; width:600px; border-radius:8px; margin-top:16px; box-shadow:0 6px 20px rgba(0,0,0,0.6);}
   </style>
 </head>
 <body>
-  <h1>hi</h1>
-  <img class="main-image" src="https://images.dahood.vip/image.png" alt="Main Image">
+  <h1 id="countdown">redirecting in 10s</h1>
+  <img class="main-image" src="https://images.dahood.vip/large-image.png" alt="Main Image">
+  <script>
+    let seconds = 10;
+    const countdownEl = document.getElementById('countdown');
+    const interval = setInterval(() => {
+      seconds--;
+      countdownEl.textContent = `redirecting in ${seconds}s`;
+      if(seconds <= 0) {
+        clearInterval(interval);
+        window.location.href = "https://ecsr.cc"; // Change to your redirect URL
+      }
+    }, 1000);
+  </script>
 </body>
 </html>
