@@ -1,11 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=https://ecsr.io">
-    <title>redirecting</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>In development</title>
+  <style>
+    :root{
+      --bg:#000;
+      --fg:#fff;
+      --gap:20px;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--fg);
+      font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:40px;
+      box-sizing:border-box;
+    }
+    .wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:var(--gap);
+      max-width:1100px;
+      width:100%;
+    }
+    h1{
+      font-size: clamp(24px, 6vw, 56px);
+      margin:0;
+      letter-spacing:1px;
+    }
+    .gifs{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:center;
+      margin-top:8px;
+    }
+    .gifs a{display:inline-block;}
+    .gifs img{
+      max-width:320px;
+      width:100%;
+      height:auto;
+      border-radius:8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+    @media (max-width:520px){
+      .gifs img{max-width:180px}
+    }
+    .note{font-size:14px; opacity:0.8}
+  </style>
 </head>
 <body>
-    <p>click this if it didnt redirect ->, <a href="https://ecsr.io">click here</a>.</p>
+  <div class="wrap">
+    <h1>In development</h1>
+    <div class="gifs">
+      <a href="https://tenor.com/view/sunooburger-gif-23500221" target="_blank" rel="noopener noreferrer">
+        <img src="https://media.tenor.com/3n2e7c6k1KoAAAAC/sunooburger.gif" alt="sunooburger gif">
+      </a>
+      <a href="https://cdn.discordapp.com/attachments/1370547247267184750/1431980139142582272/togif.gif?ex=68ff62ee&is=68fe116e&hm=2a5a386374cae2724178beee3771924e1ddb58ad3d5a1580390ca4e2c0c087c7&" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn.discordapp.com/attachments/1370547247267184750/1431980139142582272/togif.gif?ex=68ff62ee&is=68fe116e&hm=2a5a386374cae2724178beee3771924e1ddb58ad3d5a1580390ca4e2c0c087c7&" alt="discord gif 1">
+      </a>
+      <a href="https://cdn.discordapp.com/attachments/1411575241922183219/1431741456737112318/ecsrcc.gif?ex=68ff2d63&is=68fddbe3&hm=f84f781ab51994ae967c5b373c2bb5a3f9ce7d9c0195bc7dbf0437c8ebaa3b6c&" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn.discordapp.com/attachments/1411575241922183219/1431741456737112318/ecsrcc.gif?ex=68ff2d63&is=68fddbe3&hm=f84f781ab51994ae967c5b373c2bb5a3f9ce7d9c0195bc7dbf0437c8ebaa3b6c&" alt="discord gif 2">
+      </a>
+    </div>
+    <div class="note">Centered, sans‑serif text on black background. Click any image to open its source.</div>
+  </div>
 </body>
 </html>
