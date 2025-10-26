@@ -1,0 +1,153 @@
+<template>
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+    <div class="coin-wrapper" style="position: relative; width: 512px; height: 500px;">
+      <!-- Background image appears behind the coin near the end -->
+      <img
+        id="coinResultBg"
+        :src="resultImg"
+        alt="Result"
+        style="
+          position: absolute;
+          top: 158px;
+          left: 164px;
+          width: 184px;
+          height: 184px;
+          opacity: 0;
+          transition: opacity 0.4s ease;
+          z-index: 0;
+        "
+      />
+      <!-- Coin sprite animation -->
+      <div
+        class="coin"
+        :style="{ backgroundImage: `url('${currentSprite}')`, backgroundPosition: bgPosition }"
+      ></div>
+    </div>
+
+    <button @click="flipCoin" :disabled="isAnimating" style="padding: 10px 20px; font-size: 16px;">
+      {{ isAnimating ? "Flipping..." : "Flip Coin" }}
+    </button>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      SPRITE_CONFIG: {
+        frameWidth: 512,
+        frameHeight: 500,
+        cols: 8,
+        rows: 32,
+        totalFrames: 256,
+        sprites: [
+          'https://raw.githubusercontent.com/NimbIz/random/refs/heads/main/peak_heads_land_heads.png',
+          'https://raw.githubusercontent.com/NimbIz/random/refs/heads/main/peak_heads_land_tails.png',
+          'https://raw.githubusercontent.com/NimbIz/random/refs/heads/main/peak_tails_land_heads.png',
+          'https://raw.githubusercontent.com/NimbIz/random/refs/heads/main/peak_tails_land_tails.png'
+        ]
+      },
+      isAnimating: false,
+      currentSprite: '',
+      resultImg: '',
+      bgPosition: '0px 0px',
+      framePositions: [],
+      targetFPS: 60,
+      animationId: null,
+      outcome: 'heads'
+    };
+  },
+  mounted() {
+    this.calculateFramePositions();
+    this.loadRandomSprite();
+  },
+  methods: {
+    calculateFramePositions() {
+      this.framePositions = [];
+      for (let frame = 0; frame < this.SPRITE_CONFIG.totalFrames; frame++) {
+        const col = frame % this.SPRITE_CONFIG.cols;
+        const row = Math.floor(frame / this.SPRITE_CONFIG.cols);
+        const x = -(col * this.SPRITE_CONFIG.frameWidth);
+        const y = -(row * this.SPRITE_CONFIG.frameHeight);
+        this.framePositions.push({ x, y });
+      }
+    },
+    loadRandomSprite() {
+      const randomSprite = this.SPRITE_CONFIG.sprites[Math.floor(Math.random() * this.SPRITE_CONFIG.sprites.length)];
+      this.currentSprite = randomSprite;
+    },
+    flipCoin() {
+      if (this.isAnimating) return;
+      this.isAnimating = true;
+
+      // Random outcome
+      this.outcome = Math.random() < 0.5 ? 'heads' : 'tails';
+
+      // Reset background
+      this.resultImg = '';
+      const bg = document.getElementById('coinResultBg');
+      bg.style.opacity = 0;
+
+      // Load new random sprite
+      this.loadRandomSprite();
+
+      // Start animation
+      const startTime = performance.now();
+      const totalFrames = this.SPRITE_CONFIG.totalFrames;
+      const totalAnimationTime = (totalFrames / this.targetFPS) * 1000;
+      let lastFrameIndex = -1;
+
+      const animateFrame = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / totalAnimationTime, 1);
+        const frameIndex = Math.floor(progress * totalFrames);
+
+        if (frameIndex !== lastFrameIndex && frameIndex < this.framePositions.length) {
+          const pos = this.framePositions[frameIndex];
+          this.bgPosition = `${pos.x}px ${pos.y}px`;
+          lastFrameIndex = frameIndex;
+
+          if (frameIndex === 220) {
+            this.resultImg = this.outcome === 'heads'
+              ? 'https://images.dahood.vip/heads.png'
+              : 'https://images.dahood.vip/tails.png';
+            requestAnimationFrame(() => {
+              bg.style.opacity = 1;
+            });
+          }
+        }
+
+        if (progress < 1) {
+          this.animationId = requestAnimationFrame(animateFrame);
+        } else {
+          this.finishAnimation();
+        }
+      };
+
+      this.animationId = requestAnimationFrame(animateFrame);
+    },
+    finishAnimation() {
+      this.isAnimating = false;
+      // Freeze on last frame
+      const finalFrame = this.SPRITE_CONFIG.totalFrames - 1;
+      const pos = this.framePositions[finalFrame];
+      this.bgPosition = `${pos.x}px ${pos.y}px`;
+    }
+  }
+};
+</script>
+
+<style scoped>
+.coin {
+  width: 512px;
+  height: 500px;
+  background-size: 4096px 16000px;
+  background-repeat: no-repeat;
+  will-change: background-position;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+</style>
